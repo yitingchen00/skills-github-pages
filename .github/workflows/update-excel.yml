@@ -25,4 +25,4 @@ jobs:
         run: |
           git add database.xlsx
           git commit -m "Update database.xlsx via GitHub Actions" || echo "No changes to commit"
-          git push https://x-access-token:${{ secrets.GITHUB_ACTIONS_PAT }}@github.com/yitingchen00/skills-github-pages.git
+          git push https://x-access-token:${{ secrets.MY_GITHUB_PAT }}@github.com/yitingchen00/skills-github-pages.git
