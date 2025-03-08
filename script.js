@@ -9,7 +9,7 @@ async function saveToGitHub() {
     const githubUsername = "yitingchen00";
     const repoName = "skills-github-pages";
     const filePath = "database.xlsx";  // 存到 GitHub 的路徑
-    const token = "${{ secrets.API_TOKEN }}";
+    const token = "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";
 
     // 將內容轉換為 Base64（GitHub API 需要這種格式）
     const encodedContent = btoa(unescape(encodeURIComponent(content)));
