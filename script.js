@@ -1,4 +1,11 @@
+async function getToken() {
+    const response = await fetch('./config.json');
+    const data = await response.json();
+    return data.token;
+}
+
 async function saveToGitHub() {
+    const token = await getToken();  // 從 config.json 中獲取 PAT
     const content = document.getElementById("userInput").value;
     
     if (!content) {
@@ -6,28 +13,25 @@ async function saveToGitHub() {
         return;
     }
 
-    // 轉換為 Base64
     const encodedContent = btoa(unescape(encodeURIComponent(content)));
-
-    // 發送 GitHub Actions 事件
     const githubUsername = "yitingchen00";
     const repoName = "skills-github-pages";
     const fileUrl = `https://api.github.com/repos/${githubUsername}/${repoName}/dispatches`;
 
     const response = await fetch(fileUrl, {
-    method: "POST",
-    headers: {
-        "Accept": "application/vnd.github.v3+json",
-        "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-        event_type: "update-excel",
-        client_payload: {
-            data: encodedContent
-        }
-    })
-});
-
+        method: "POST",
+        headers: {
+            "Authorization": `token ${token}`,
+            "Accept": "application/vnd.github.v3+json",
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            event_type: "update-excel",
+            client_payload: {
+                data: encodedContent
+            }
+        })
+    });
 
     if (response.ok) {
         alert("請求已發送，GitHub Actions 會更新 Excel！");
