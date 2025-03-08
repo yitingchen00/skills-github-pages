@@ -26,7 +26,7 @@ async function saveToGitHub() {
     try {
         const response = await fetch(fileUrl, {
             headers: {
-                "Authorization": `token ${fileUrlToken}`,
+                "Authorization":`token ${fileUrlToken}`,
                 "Accept": "application/vnd.github.v3+json"
             }
         });
