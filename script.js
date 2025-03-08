@@ -15,19 +15,19 @@ async function saveToGitHub() {
     const fileUrl = `https://api.github.com/repos/${githubUsername}/${repoName}/dispatches`;
 
     const response = await fetch(fileUrl, {
-        method: "POST",
-        headers: {
-            "Authorization": "token 你的GitHub個人存取令牌",  // ⚠️ 這裡要填入你的 Token
-            "Accept": "application/vnd.github.v3+json",
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            event_type: "update-excel",
-            client_payload: {
-                data: encodedContent
-            }
-        })
-    });
+    method: "POST",
+    headers: {
+        "Accept": "application/vnd.github.v3+json",
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        event_type: "update-excel",
+        client_payload: {
+            data: encodedContent
+        }
+    })
+});
+
 
     if (response.ok) {
         alert("請求已發送，GitHub Actions 會更新 Excel！");
