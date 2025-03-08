@@ -19,7 +19,7 @@ async function saveToGitHub() {
     const githubUsername = "yitingchen00";  // 你的 GitHub 用戶名
     const repoName = "skills-github-pages";  // 你的倉庫名稱
     const filePath = "database.xlsx";        // 存儲文件的路徑
-    const fileUrl = `https://api.github.com/repos/${githubUsername}/${repoName}/contents/${filePath}`;
+    const fileUrl = `https://api.github.com/repos/${githubUsername}/${repoName}/${filePath}`;
 
     // 先檢查該檔案是否已存在（需要取得 SHA 值來更新）
     let sha = null;
