@@ -24,8 +24,11 @@ jobs:
             "fileUrlToken": "${{ secrets.PAT }}"
           }' > config.json
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.MY_GITHUB_PAT }}  # 使用 MY_GITHUB_PAT
-          publish_dir: ./
+      - name: List files (for debugging)
+        run: ls -la
+
+      - name: Commit and Push Changes
+        run: |
+          git add config.json
+          git commit -m "Update config.json via GitHub Actions" || echo "No changes to commit"
+          git push https://x-access-token:${{ secrets.MY_GITHUB_PAT }}@github.com/yitingchen00/skills-github-pages.git
