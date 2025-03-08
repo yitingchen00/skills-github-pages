@@ -1,4 +1,4 @@
 {
     "fileUrlToken": "${{ secrets.PAT }}",
-    "githubActionsToken": "${{ secrets.GITHUB_ACTIONS_PAT }}"
+    "githubActionsToken": "${{ secrets.MY_GITHUB_PAT }}"
 }
