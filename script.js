@@ -1,6 +1,13 @@
+async function getToken() {
+    const response = await fetch('./config.json');
+    const data = await response.json();
+    return data.token;
+}
+
 async function saveToGitHub() {
+    const token = await getToken();  // 從 config.json 中獲取 PAT
     const content = document.getElementById("userInput").value;
-    
+
     if (!content) {
         alert("請輸入內容！");
         return;
@@ -8,13 +15,9 @@ async function saveToGitHub() {
 
     const githubUsername = "yitingchen00";
     const repoName = "skills-github-pages";
-    const filePath = "database.xlsx";  // 存到 GitHub 的路徑
-    const token = process.env.PAT;  // 從環境變量中獲取 PAT
-
-    // 將內容轉換為 Base64（GitHub API 需要這種格式）
+    const filePath = "database.xlsx";
     const encodedContent = btoa(unescape(encodeURIComponent(content)));
 
-    // 先檢查該檔案是否已存在（需要取得 SHA 值來更新）
     const fileUrl = `https://api.github.com/repos/${githubUsername}/${repoName}/contents/${filePath}`;
     
     let sha = null;
@@ -28,17 +31,16 @@ async function saveToGitHub() {
 
         if (response.ok) {
             const data = await response.json();
-            sha = data.sha;  // 取得檔案 SHA 值（若檔案存在）
+            sha = data.sha;
         }
     } catch (error) {
         console.log("檔案可能不存在，將新建檔案");
     }
 
-    // 發送 PUT 請求來新增或更新檔案
     const body = JSON.stringify({
         message: "使用者儲存筆記",
         content: encodedContent,
-        sha: sha  // 若檔案已存在，則需要 SHA
+        sha: sha
     });
 
     const result = await fetch(fileUrl, {
