@@ -24,7 +24,7 @@ jobs:
         run: |
           echo "${{ github.event.client_payload.data }}" | base64 --decode > database.xlsx
 
-      - name: Commit and Push Changes
+      - name: Push Changes to GitHub
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
