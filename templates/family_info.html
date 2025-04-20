@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>不揪 - 聯絡資訊</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container-fluid">
+    <div class="row">
+
+      <!-- Sidebar -->
+      <div class="col-md-2 sidebar">
+        <ul>
+          <li><a href="{{ url_for('calendar') }}"><strong>日曆</strong></a></li>
+          <li><a href="{{ url_for('info') }}"><strong>家族資訊與聯絡</strong></a></li>
+          <li><a href="{{ url_for('todo') }}"><strong>待辦事項</strong></a></li>
+        </ul>
+        <img src="{{ url_for('static', filename='family.png') }}" class="sidebar-image" alt="家庭卡通合照">
+      </div>
+
+      <!-- Contact Info -->
+      <!-- ...略去前面結構 -->
+<div class="col-md-10">
+  <div class="row p-4">
+    <div class="col-md-12 list-section">
+      <h4>聯絡資訊</h4>
+      <div class="table-responsive">
+        <table class="table table-bordered align-middle text-center" id="contact-table">
+          <thead class="table-secondary">
+            <tr>
+              <th>成員</th>
+              <th>電話</th>
+              <th>Gmail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>爸爸</td>
+              <td contenteditable="true" data-key="爸爸_phone"></td>
+              <td contenteditable="true" data-key="爸爸_gmail"></td>
+            </tr>
+            <tr>
+              <td>媽媽</td>
+              <td contenteditable="true" data-key="媽媽_phone"></td>
+              <td contenteditable="true" data-key="媽媽_gmail"></td>
+            </tr>
+            <tr>
+              <td>老大</td>
+              <td contenteditable="true" data-key="老大_phone"></td>
+              <td contenteditable="true" data-key="老大_gmail"></td>
+            </tr>
+            <tr>
+              <td>老二</td>
+              <td contenteditable="true" data-key="老二_phone"></td>
+              <td contenteditable="true" data-key="老二_gmail"></td>
+            </tr>
+            <tr>
+              <td>老三</td>
+              <td contenteditable="true" data-key="老三_phone"></td>
+              <td contenteditable="true" data-key="老三_gmail"></td>
+            </tr>
+            <tr>
+              <td>老四</td>
+              <td contenteditable="true" data-key="老四_phone"></td>
+              <td contenteditable="true" data-key="老四_gmail"></td>
+            </tr>
+            <tr>
+              <td>阿嬤</td>
+              <td contenteditable="true" data-key="阿嬤_phone"></td>
+              <td contenteditable="true" data-key="阿嬤_gmail"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 🔔 Alert 訊息（Bootstrap）-->
+      <div id="save-alert" class="alert alert-success d-none mt-3" role="alert">
+        ✅ 已成功儲存聯絡資訊！
+      </div>
+
+      <div class="text-end mt-2">
+        <button class="btn btn-success" onclick="saveContactInfo()">儲存</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<!-- ...略去 sidebar 與 container 結尾 -->
+
+<!-- ✅ 引入外部 JS -->
+<script src="{{ url_for('static', filename='infostore.js') }}"></script>
+</body>
+</html>
