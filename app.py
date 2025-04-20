@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 app = Flask(__name__)
-DATA_FILE = Path("static/calendar_events.json")
+DATA_FILE = Path("skills-github-pages/js/calendar_events.json")
 
 @app.route("/")
 def home():
