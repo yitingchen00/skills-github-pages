@@ -1,0 +1,35 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # 當 main 分支有推送時觸發
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
+      - name: Generate config file
+        run: |
+          echo '{
+            "fileUrlToken": "${{ secrets.PAT }}"
+          }' > config.json
+
+      - name: List files (for debugging)
+        run: ls -la
+
+      - name: Commit and Push Changes
+        run: |
+          git add config.json
+          git commit -m "Update config.json via GitHub Actions" || echo "No changes to commit"
+          git pull https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yitingchen00/skills-github-pages.git main
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/yitingchen00/skills-github-pages.git
