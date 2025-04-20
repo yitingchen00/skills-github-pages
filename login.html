@@ -21,10 +21,11 @@
     <p id="submitMessage" style="color: red; font-weight: bold;"></p>
 
     <!-- ✅ 當按下按鈕才會導向 + 儲存 -->
-    <div>
-      <button class="page-button" onclick="goToPage('calendar')">前往家庭版</button>
-      <button class="page-button" onclick="goToPage('friend')">前往朋友版</button>
-    </div>
+    <!-- ✅ 直接指定 .html 路徑 -->
+  <div>
+    <button class="page-button" onclick="window.location.href='family_calendar.html'">前往家庭版</button>
+    <button class="page-button" onclick="window.location.href='friend.html'">前往朋友版</button>
+  </div>
   </section>
 
   <script>
