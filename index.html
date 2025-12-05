@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>大富翁分數計算機</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; }
+        h1, h2 { color: #333; }
+        
+        /* 1. 當前分數儀表板 (不變) */
+        .score-board { 
+            display: flex; justify-content: space-around; margin-bottom: 30px; 
+            border: 2px solid #007bff; padding: 15px; border-radius: 8px; background-color: #eaf5ff;
+        }
+        .player-score { text-align: center; padding: 0 10px; }
+        .player-score span { font-size: 1.5em; font-weight: bold; color: #007bff; }
+
+        /* 2. 遊戲操作區 - 核心調整 */
+        .game-controls { 
+            padding: 20px; 
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            margin-bottom: 30px;
+        }
+
+        /* 步驟容器 */
+        .control-step {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px dashed #ddd;
+            border-radius: 5px;
+        }
+
+        /* 階段一：選擇玩家按鈕組 */
+        .player-select-buttons {
+            display: flex; 
+            gap: 15px; 
+            margin-top: 10px;
+        }
+        .player-select-buttons button {
+            padding: 10px 20px; cursor: pointer; border: 1px solid #007bff; background-color: white; border-radius: 5px;
+            /* JS 提示：使用 data-player 標記玩家 */
+        }
+        /* 選中狀態 */
+        .player-select-buttons button.selected {
+            background-color: #007bff; 
+            color: white; 
+            font-weight: bold;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 階段二：牌號選擇並列 */
+        .card-selection-area {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .card-group {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .execute-button {
+            padding: 12px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            margin-top: 10px;
+        }
+        #execute-chance { background-color: #28a745; }
+        #execute-threat { background-color: #dc3545; }
+
+        /* 3. 每輪分數歷史紀錄表 (不變) */
+        #score-history-table {
+            width: 100%; border-collapse: collapse; margin-top: 15px;
+        }
+        #score-history-table th, #score-history-table td {
+            border: 1px solid #ccc; padding: 8px 12px; text-align: center;
+        }
+        #score-history-table th { background-color: #f2f2f2; font-weight: bold; }
+        #initial-scores { font-weight: bold; background-color: #fff9e6; }
+    </style>
+</head>
+<body>
+
+    <h1>大富翁分數計算機</h1>
+    <div id="current-round" class="current-round">
+        目前輪次：第 1 輪 
+    </div>
+    
+    <h2>當前玩家分數 (最新資金)</h2>
+    <div id="score-board" class="score-board">
+        <div class="player-score"><h3>玩家 A</h3><span id="score-A">$300</span></div>
+        <div class="player-score"><h3>玩家 B</h3><span id="score-B">$220</span></div>
+        <div class="player-score"><h3>玩家 C</h3><span id="score-C">$200</span></div>
+        <div class="player-score"><h3>玩家 D</h3><span id="score-D">$80</span></div>
+    </div>
+    
+    <h2>執行抽牌計算</h2>
+    <div id="game-controls" class="game-controls">
+
+        <div class="control-step">
+            <h3>步驟 1: 選擇機會或威脅牌</h3>
+            <select id="card-select" style="width: 100%; padding: 8px;">
+                <option value="0" selected>--- 請選擇牌卡 ---</option>
+                <optgroup label="機會牌 (獲益)">
+                    <!-- JS 會動態填入選項 -->
+                </optgroup>
+                <optgroup label="威脅牌 (損失)">
+                    <!-- JS 會動態填入選項 -->
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="control-step">
+            <h3>步驟 2: 選擇參與計算的玩家 (可多選)</h3>
+            <div id="player-select-buttons" class="player-select-buttons">
+                <button data-player="A">玩家 A</button>
+                <button data-player="B">玩家 B</button>
+                <button data-player="C">玩家 C</button>
+                <button data-player="D">玩家 D</button>
+            </div>
+        </div>
+
+        <div class="control-step">
+            <h3>步驟 3: 設定各玩家的結果</h3>
+            <p style="font-style: italic;">(選擇玩家後，於此處設定每位玩家的計算方式)</p>
+            <div id="player-outcome-settings" style="display: flex; flex-direction: column; gap: 15px; margin-top: 10px;">
+                <!-- JS 將根據步驟2的選擇，動態生成玩家設定 -->
+            </div>
+        </div>
+        
+        <button id="execute-calculation" class="execute-button" style="background-color: #28a745; width: 100%; margin-top: 20px; font-size: 1.2em; padding: 15px;">執行本輪計算</button>
+    </div>
+
+    <h2>每輪分數紀錄</h2>
+    <div id="round-results-container">
+        <table id="score-history-table">
+            <thead>
+                <tr>
+                    <th>輪次</th>
+                    <th>玩家 A</th>
+                    <th>玩家 B</th>
+                    <th>玩家 C</th>
+                    <th>玩家 D</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="initial-scores">
+                    <td>初始資金</td>
+                    <td>$300</td>
+                    <td>$220</td>
+                    <td>$200</td>
+                    <td>$80</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button id="end-game-button" style="margin-top: 30px; background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">遊戲結束</button>
+    <h2 id="final-result-title" style="display: none;">最終排名結果</h2>
+    <div id="final-results" style="display: none;">
+        </div>
+    
+    <button id="restart-button" style="margin-top: 30px;">重新開始遊戲</button>
+
+    <script src="monopoly.js"></script>
+
+</body>
+</html>
