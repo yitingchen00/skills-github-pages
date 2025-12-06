@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <title>大富翁分數計算機</title>
+    <title>資產計算機</title>
     <style>
         body { font-family: Arial, sans-serif; max-width: 900px; margin: 0 auto; padding: 20px; }
         h1, h2 { color: #333; }
@@ -90,12 +90,12 @@
 </head>
 <body>
 
-    <h1>大富翁分數計算機</h1>
+    <h1>資產計算機</h1>
     <div id="current-round" class="current-round">
         目前輪次：第 1 輪 
     </div>
     
-    <h2>當前玩家分數 (最新資金)</h2>
+    <h2>當前玩家分數 (最新總資產值)</h2>
     <div id="score-board" class="score-board">
         <div class="player-score"><h3>玩家 A</h3><span id="score-A">$300</span></div>
         <div class="player-score"><h3>玩家 B</h3><span id="score-B">$220</span></div>
@@ -154,7 +154,7 @@
             </thead>
             <tbody>
                 <tr id="initial-scores">
-                    <td>初始資金</td>
+                    <td>初始總資產</td>
                     <td>$300</td>
                     <td>$220</td>
                     <td>$200</td>
@@ -174,4 +174,5 @@
     <script src="monopoly.js"></script>
 
 </body>
+
 </html>
