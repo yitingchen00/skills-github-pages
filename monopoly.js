@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'A': 300,
             'B': 220,
             'C': 200,
-            'D': 80
+            'D': 150
         },
         // 初始資金的25%閾值
         winningThresholds: {},
@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            this.playerFunds = { 'A': 300, 'B': 220, 'C': 200, 'D': 80 };
+            this.playerFunds = { 'A': 300, 'B': 220, 'C': 200, 'D': 150 };
             this.calculateWinningThresholds(); // 重新計算獲勝門檻
             this.currentRound = 1; // 重新開始時，輪次設定為第一輪
             this.selectedPlayers = [];
@@ -388,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>$300</td>
                     <td>$220</td>
                     <td>$200</td>
-                    <td>$80</td>
+                    <td>$150</td>
                 </tr>
             `; 
             
@@ -411,4 +411,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 啟動應用程式
     calculator.init();
+
 });
