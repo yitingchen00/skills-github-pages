@@ -6,16 +6,16 @@
 
 ### 🚀 專案列表
 
-點擊下方的連結即可直接預覽網頁成果：
+點擊下方的標題即可直接預覽網頁成果：
 
-* **[商用計算機：家庭朋友行程共享記事本](./BuJiu/)**
-    * [說明文件網址](https://docs.google.com/document/d/1jjaFzJA-uyD-P2JNLKZ8p-SluLBg7sZE3IDgDrEJXv8/edit?usp=sharing)
+* **[家庭朋友行程共享記事本 (BuJiu)](./BuJiu/)**
+    * [專案說明文件](https://docs.google.com/document/d/1jjaFzJA-uyD-P2JNLKZ8p-SluLBg7sZE3IDgDrEJXv8/edit?usp=sharing)
   
-* **[電子商務：二手衣物修改平台](./RefitMe/)**
-    * 說明：包含理念 & 服務介紹、服務體驗與選購、通路與行銷宣傳、聯絡窗口。
+* **[二手衣物修改平台 (RefitMe)](./RefitMe/)**
+    * 內容包含：理念介紹、服務體驗、通路行銷、聯絡窗口。
 
-* **[企業政策：電商大富翁計算器](./BusinessPolicy_AssetComputing/)**
-    * 說明：企業政策的期末成果為遊戲展演。在團隊試玩的過程中發現人工計算較麻煩且耗時，因此設計了資產計算器網頁。只要選擇對應的公司與事件即可算出現有資產，節省時間與人力成本。
+* **[電商大富翁：資產計算器 (BusinessPolicy_AssetComputing)](./BusinessPolicy_AssetComputing/)**
+    * 說明：為「企業政策」期末遊戲開發的輔助工具，自動計算各公司資產，節省人力運算成本。
 
 ---
 
