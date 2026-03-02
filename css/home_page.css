@@ -1,0 +1,79 @@
+body {
+  background-color: #f3e7d4; /* 奶茶色 */
+  font-family: 'Cormorant Garamond', sans-serif;
+}
+
+/* Hero 區塊 */
+.hero,
+.reborn-story {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.hero h1,
+.reborn-story h2 {
+  font-size: 48px;
+  color: #2f4f4f;
+}
+
+.hero p,
+.reborn-story p,
+.reborn-story-content p {
+  font-size: 20px;
+  color: #3e3e3e;
+}
+
+/* 導覽列樣式 */
+.navbar {
+  background-color: #102f21;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-icon {
+  height: 60px;
+  vertical-align: middle;
+}
+
+/* 品牌標題樣式 */
+.navbar-brand {
+  color: #a17434 !important;
+  font-size: 36px;
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 1px;
+  
+}
+
+/* 導覽連結樣式 */
+.navbar-nav .nav-link {
+  color: #a17434 !important;
+  font-size: 20px;
+  margin-left: 12px;
+}
+
+
+/* 影音區塊 */
+.video-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.video-wrapper video,
+.video-wrapper iframe {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.custom-submit-btn {
+  background-color:  #102f21;       /* 土金棕色背景 */
+  color:  #a17434;                    /* 白色字體 */
+  font-family: 'Cormorant Garamond', serif;  /* 字體 */
+  font-size: 20px;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  margin-top:40px;
+}

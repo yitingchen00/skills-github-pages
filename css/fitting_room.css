@@ -1,0 +1,121 @@
+body {
+    background-color: #f3e7d4; /* 奶茶色 */
+    font-family:'Cormorant Garamond', sans-serif;
+  }
+/* 導覽列樣式 */
+.navbar {
+  background-color: #102f21;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+/* 品牌標題樣式 */
+.navbar-brand {
+  color: #a17434 !important;
+  font-size: 36px;
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 1px;
+  
+}
+
+/* 導覽連結樣式 */
+.navbar-nav .nav-link {
+  color: #a17434 !important;
+  font-size: 20px;
+  margin-left: 12px;
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.logo-icon {
+  height: 60px;
+  vertical-align: middle;
+}
+.navbar {
+  background-color: #102f21;
+  height: 70px;
+  display: flex;
+  align-items: center;
+}
+/* 品牌標題樣式 */
+.navbar-brand {
+  color: #a17434 !important;
+  font-size: 36px;
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 1px;
+  
+}
+
+/* 導覽連結樣式 */
+.navbar-nav .nav-link {
+  color: #a17434 !important;
+  font-size: 20px;
+  margin-left: 12px;
+}
+
+.logo-icon {
+  height: 60px;
+  vertical-align: middle;
+}
+.upload-box {
+  border: 2px solid #a17434;  /* 金色實線 */
+  padding: 20px;              /* 內距增加區塊感 */
+  border-radius: 8px;         /* 邊角微圓滑（可選） */
+  background-color: #fffaf2;  /* 奶茶/象牙色背景（可選） */
+  text-align: center;         /* 內容置中（可選） */
+}
+  
+  
+.uploaded-image {
+  max-width: 150px;
+  margin: 10px;
+  position: relative;
+}
+  
+.uploaded-image img {
+  width: 100%;
+  border-radius: 6px;
+  border: 3px solid #ccc;
+}
+  
+.remove-btn {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #dc3545;
+  color:#f3e7d4;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 14px;
+}
+  
+.result-image {
+  max-width: 300px;
+  border: 2px solid #2f4f4f;
+  border-radius: 8px;
+  margin-top: 30px;
+}
+.custom-submit-btn,
+.custom-reform-btn {
+  background-color:  #102f21;       /* 土金棕色背景 */
+  color:  #a17434;                    /* 白色字體 */
+  font-family: 'Cormorant Garamond', serif;  /* 字體 */
+  font-size: 20px;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+  margin-top:40px;
+}
+
+.custom-submit-btn:hover {
+  background-color: #956a35;  /* hover 時變深色 */
+  cursor: pointer;
+}
+.custom-reform-btn:hover {
+  background-color: #956a35;  /* hover 時變深色 */
+  cursor: pointer;
+  text-decoration: none !important; /* 強制取消底線 */
+}
+
