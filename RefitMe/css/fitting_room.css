@@ -2,21 +2,6 @@ body {
     background-color: #f3e7d4; /* 奶茶色 */
     font-family:'Cormorant Garamond', sans-serif;
   }
-/* 導覽列樣式 */
-.navbar {
-  background-color: #102f21;
-  height: 70px;
-  display: flex;
-  align-items: center;
-}
-/* 品牌標題樣式 */
-.navbar-brand {
-  color: #a17434 !important;
-  font-size: 36px;
-  font-family: 'Cormorant Garamond', serif;
-  letter-spacing: 1px;
-  
-}
 
 /* 導覽連結樣式 */
 .navbar-nav .nav-link {
@@ -32,9 +17,10 @@ body {
 }
 .navbar {
   background-color: #102f21;
-  height: 70px;
+  min-height: 70px;
   display: flex;
   align-items: center;
+  padding-top/bottom:0;
 }
 /* 品牌標題樣式 */
 .navbar-brand {
@@ -42,6 +28,7 @@ body {
   font-size: 36px;
   font-family: 'Cormorant Garamond', serif;
   letter-spacing: 1px;
+  display:flex; align-items:center；
   
 }
 
@@ -55,6 +42,7 @@ body {
 .logo-icon {
   height: 60px;
   vertical-align: middle;
+  margin-right: 10px;
 }
 .upload-box {
   border: 2px solid #a17434;  /* 金色實線 */
