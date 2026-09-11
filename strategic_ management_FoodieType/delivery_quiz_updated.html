@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodieType</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: #06C167; 
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .fade-enter-from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .fade-leave-to {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        .flip-motorcycle {
+            transform: scaleX(-1);
+        }
+        .text-custom-orange {
+            color: #ff914d;
+        }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex items-center justify-center p-4">
+
+    <div id="app" class="w-full max-w-md bg-white rounded-3xl shadow-xl overflow-hidden border border-slate-100 relative min-h-[550px] flex flex-col justify-between">
+        
+        <div v-if="step === 'start'" class="p-8 flex flex-col items-center text-center my-auto">
+            <div class="text-6xl mb-6 animate-bounce flip-motorcycle">🛵</div>
+            <h1 class="text-2xl font-bold text-slate-800 mb-3">外送消費者心理人格測驗</h1>
+            <p class="text-slate-500 text-sm mb-8 leading-relaxed">
+                每次點外送都選擇障礙？運費太高就想放棄？<br>
+                精準解密你的隱藏版「外送靈魂」！
+            </p>
+            <button @click="startQuiz" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold py-4 px-6 rounded-2xl shadow-lg shadow-amber-500/20 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 text-lg">
+                開始外送 ➔
+            </button>
+        </div>
+
+        <div v-else-if="step === 'quiz'" class="p-6 flex flex-col justify-between flex-1">
+            <div>
+                <div class="flex justify-between items-center mb-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                    <span>外送進度</span>
+                    <span>{{ currentQuestionNumber }} / 8</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-2.5 mb-8 relative">
+                    <div class="absolute text-lg -top-3.5 transition-all duration-300 flip-motorcycle" :style="{ left: `calc(${progress}% - 12px)` }">🛵</div>
+                    <div class="bg-amber-500 h-2.5 rounded-full transition-all duration-300" :style="{ width: `${progress}%` }"></div>
+                </div>
+
+                <transition name="fade" mode="out-in">
+                    <div :key="currentQuestion.id" class="mt-4">
+                        <span class="inline-block bg-amber-100 text-amber-700 text-xs px-2.5 py-1 rounded-full font-bold mb-3">
+                            QUESTION 0{{ currentQuestionNumber }}
+                        </span>
+                        <h2 class="text-xl font-bold text-slate-800 leading-snug mb-8">
+                            {{ currentQuestion.text }}
+                        </h2>
+                        
+                        <div class="space-y-4">
+                            <button 
+                                v-for="(option, index) in currentQuestion.options" 
+                                :key="index"
+                                @click="handleAnswer(option.nextId)"
+                                class="w-full text-left bg-slate-50 hover:bg-amber-50/50 border border-slate-200 hover:border-amber-300 p-4 rounded-xl transition-all duration-200 group flex items-center"
+                            >
+                                <span class="w-8 h-8 bg-white border border-slate-200 group-hover:border-amber-400 group-hover:bg-amber-500 group-hover:text-white flex items-center justify-center rounded-lg mr-4 font-bold text-sm transition-colors">
+                                    {{ String.fromCharCode(65 + index) }}
+                                </span>
+                                <span class="text-slate-700 font-medium group-hover:text-slate-900 flex-1">{{ option.text }}</span>
+                            </button>
+                        </div>
+                    </div>
+                </transition>
+            </div>
+
+            <button v-if="history.length > 0" @click="prevQuestion" class="mt-6 text-sm font-semibold text-slate-400 hover:text-slate-600 transition-colors flex items-center justify-center">
+                ← 返回上一題
+            </button>
+        </div>
+
+        <div v-else-if="step === 'result'" class="p-6 flex flex-col items-center">
+            <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full uppercase tracking-widest mb-4">外送已送達！你的測驗結果</span>
+            
+            <div class="w-full max-w-[66.6%] mb-4 flex justify-center">
+                <img :src="resultData.image" :alt="resultData.title" class="w-full h-auto object-contain rounded-xl shadow-sm border border-slate-100" />
+            </div>
+
+            <div class="w-full bg-slate-50 border border-slate-100 rounded-2xl p-5 mb-6 text-sm text-slate-600 leading-relaxed">
+                <h3 class="font-bold text-slate-800 mb-2">人格核心剖析</h3>
+                <p>{{ resultData.desc }}</p>
+            </div>
+
+            <div class="w-full space-y-3">
+                <button @click="restartQuiz" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold py-3.5 px-6 rounded-xl transition-all duration-200">
+                    再測一次
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const { createApp, ref, computed } = Vue;
+
+        createApp({
+            setup() {
+                const step = ref('start'); // start, quiz, result
+                const currentQuestionId = ref(1);
+                const history = ref([]); 
+                const finalResultTag = ref(''); // 紀錄第3題算出的結果人格 (A~H)
+
+                // 完整題庫與分支邏輯
+                const questions = {
+                    // --- 核心前 3 題：決定結果的分支路由 ---
+                    1: {
+                        id: 1,
+                        text: "點外送時，你是否會特地去查詢店家的「店內原價格」來對比？",
+                        options: [
+                            { text: "會，一定要對比一下價差！", nextId: 2 },
+                            { text: "不會，看平台標多少就多少", nextId: 5 }
+                        ]
+                    },
+                    2: {
+                        id: 2,
+                        text: "你在意「便宜優惠」還是「送餐速度」？",
+                        options: [
+                            { text: "便宜優惠（折扣、免運優先）", nextId: 31 },
+                            { text: "送餐速度（越快送到越好）", nextId: 32 }
+                        ]
+                    },
+                    31: {
+                        id: 31,
+                        text: "你通常習慣「一人獨享」還是「揪團一起點」？",
+                        options: [
+                            { text: "單人外送，一人獨享", nextId: 4 }, // 其實對應結果 A，但下一題強制去第 4 題
+                            { text: "團體作戰，揪團一起點", nextId: 4 }  // 其實對應結果 B
+                        ]
+                    },
+                    32: {
+                        id: 32,
+                        text: "你點外送最核心的原因通常是？",
+                        options: [
+                            { text: "真的沒時間（忙翻了）", nextId: 4 },   // 其實對應結果 C
+                            { text: "單純懶得出門（只想宅）", nextId: 4 }   // 其實對應結果 D
+                        ]
+                    },
+                    5: {
+                        id: 5,
+                        text: "你在意「便宜優惠」還是「送餐速度」？",
+                        options: [
+                            { text: "便宜優惠（折扣、免運優先）", nextId: 61 },
+                            { text: "送餐速度（越快送到越好）", nextId: 62 }
+                        ]
+                    },
+                    61: {
+                        id: 61,
+                        text: "你平時的點餐習慣比較傾向哪一種？",
+                        options: [
+                            { text: "忠誠度高，只吃固定愛店", nextId: 4 }, // 其實對應結果 E
+                            { text: "喜歡冒險，大膽嘗試新店", nextId: 4 }  // 其實對應結果 F
+                        ]
+                    },
+                    62: {
+                        id: 62,
+                        text: "當看到運費很高時（如暴雨或尖峰期），你會？",
+                        options: [
+                            { text: "管他的，肚子餓照樣下單", nextId: 4 }, // 其實對應結果 G
+                            { text: "無法接受，立刻換一家點", nextId: 4 }  // 其實對應結果 H
+                        ]
+                    },
+
+                    // --- 後 5 題：所有施測者都會經過的固定題目 (湊題數) ---
+                    4: {
+                        id: 4,
+                        text: "拿到外送後，你通常會給外送員五星好評嗎？",
+                        options: [
+                            { text: "習慣性都會給五星好評，辛苦他們了", nextId: 6 },
+                            { text: "除非服務特別好或特別糟，否則通常略過", nextId: 6 }
+                        ]
+                    },
+                    6: {
+                        id: 6,
+                        text: "當餐點送錯或有漏掉時，你的第一反應通常是？",
+                        options: [
+                            { text: "立刻找線上客服回報要求退款或補送", nextId: 7 },
+                            { text: "自認倒楣，默默吃掉算了一次不再點", nextId: 7 }
+                        ]
+                    },
+                    7: {
+                        id: 7,
+                        text: "你是否曾經因為外送平台推出訂閱制（如會員免運）而買單？",
+                        options: [
+                            { text: "有，算一算覺得常點的話很划算", nextId: 8 },
+                            { text: "沒有，不想被平台綁定的感覺", nextId: 8 }
+                        ]
+                    },
+                    8: {
+                        id: 8,
+                        text: "在等待外送的過程中，你會頻繁開啟 App 查看外送員騎到哪裡了嗎？",
+                        options: [
+                            { text: "會，隔幾分鐘就忍不住看一下地圖", nextId: 9 },
+                            { text: "不會，等手機通知響了再去拿就好", nextId: 9 }
+                        ]
+                    },
+                    9: {
+                        id: 9,
+                        text: "如果餐點因為天氣不好稍微延遲送達，你的接受度如何？",
+                        options: [
+                            { text: "完全可以理解，安全第一最重要", nextId: 'END' },
+                            { text: "內心會有點小焦躁，但還是能體諒", nextId: 'END' }
+                        ]
+                    }
+                };
+
+                const personalities = {
+                    'A': { image: 'hunter.png', desc: '你是外送平台最頭痛的精明消費者。你擁有極高的敏銳度，只要發現平台加價太多或運費不合理，你寧願關掉 App 自己走路去買。對你而言，外送是省時的工具，但絕不能讓你多當一毛錢的冤大頭。' },
+                    'B': { image: 'host.png', desc: '在朋友或同事眼中，你是外送界的神之推手。雖然你懶得出門，但你為了湊到最高的滿額折或免運，動腦精算的功力一流。你擅長統合大家的訂單，並享受那種「扣掉優惠後比原價還劃算」的極致成就感！' },
+                    'C': { image: 'efficient.png', desc: '你是一位高度務實的行動派。你點外送往往是因為生活、工作或課業極度忙碌。雖然你心裡知道外送有價差，但你更看重省下來的時間價值。為了降低踩雷的時間成本，你幾乎只點自己熟悉的固定愛店。' },
+                    'D': { image: 'lazy.png', desc: '你完美詮釋了什麼叫「理智與感性的拉扯」。你點餐時會認真確認店內價、比對運費，並在內心碎碎念。但無奈你的「懶癌」往往在最後一秒戰勝理智，雖然心疼荷包，還是會邊流淚邊按下訂單確認。' },
+                    'E': { image: 'loyal.png', desc: '你是一個追求生活穩定感的人。你懶得去查什麼店內價，平台標多少你就認多少，只要有給折價券你就順便用。你非常依賴外送帶來的便利性，且習慣在熟悉的幾家愛店反覆點餐，消夜也常常離不開外送。' },
+                    'F': { image: 'eater.png', desc: '你是天生的美食冒險家。你不愛花時間比對繁瑣的原價，但很容易被平台首頁的「新店開幕」、「買一送一」或「熱門精選」吸引。哪怕可能踩雷，你也熱衷於嘗試沒吃過的料理，生活充滿對新食物的驚喜！' },
+                    'G': { image: 'payer.png', desc: '你是外送平台最頂級的 VVIP！對你而言，能用錢解決的飢餓與時間，通通都是小事。你極度痛恨等待，不管是暴雨天還是尖峰期，只要機車能頂著風雨把熱騰騰的食物秒速送到你手上，運費再高你都能眼都不眨地刷下去。' },
+                    'H': { image: 'principal.png', desc: '你在消費上有著自己的一套神祕世界觀。你平時大喇喇地不愛比對店內外價差，餐點單價高一點你也無所謂。但唯獨對於「運費」這筆額外支出，你有著不容妥協的鐵壁底線。只要運費溢出你的預期，你會寧可換一家點。' }
+                };
+
+                // 當前題目物件
+                const currentQuestion = computed(() => {
+                    return questions[currentQuestionId.value];
+                });
+
+                // 計算當前題號
+                const currentQuestionNumber = computed(() => {
+                    return history.value.length + 1;
+                });
+
+                // 計算當前進度條百分比 (滿分 8 題)
+                const progress = computed(() => {
+                    return (history.value.length / 8) * 100;
+                });
+
+                // 最終人格結果
+                const resultData = computed(() => {
+                    if (step.value === 'result' && finalResultTag.value) {
+                        return personalities[finalResultTag.value];
+                    }
+                    return null;
+                });
+
+                // 開始測驗
+                const startQuiz = () => {
+                    step.value = 'quiz';
+                    currentQuestionId.value = 1;
+                    history.value = [];
+                    finalResultTag.value = '';
+                };
+
+                // 處理點擊選項
+                const handleAnswer = (nextId) => {
+                    const currentId = currentQuestionId.value;
+
+                    // 在第 3 題（31, 32, 61, 62）默默將真正的人格結果存下來
+                    if (currentId === 31 || currentId === 32 || currentId === 61 || currentId === 62) {
+                        // 雖然畫面接下來都去第 4 題，但根據玩家選第幾個選項來抓出原本對應的 A~H 標籤
+                        const optionIndex = currentQuestion.value.options.findIndex(opt => opt.nextId === nextId);
+                        if (currentId === 31) finalResultTag.value = optionIndex === 0 ? 'A' : 'B';
+                        if (currentId === 32) finalResultTag.value = optionIndex === 0 ? 'C' : 'D';
+                        if (currentId === 61) finalResultTag.value = optionIndex === 0 ? 'E' : 'F';
+                        if (currentId === 62) finalResultTag.value = optionIndex === 0 ? 'G' : 'H';
+                    }
+
+                    history.value.push(currentId);
+
+                    // 如果到了最後一題結束
+                    if (nextId === 'END') {
+                        step.value = 'result';
+                    } else {
+                        currentQuestionId.value = nextId;
+                    }
+                };
+
+                // 返回上一題
+                const prevQuestion = () => {
+                    if (history.value.length > 0) {
+                        const previousId = history.value.pop();
+                        currentQuestionId.value = previousId;
+                        
+                        // 如果退回前3題的範圍，清除已鎖定的結果
+                        if ([1, 2, 5, 31, 32, 61, 62].includes(previousId)) {
+                            finalResultTag.value = '';
+                        }
+                    }
+                };
+
+                // 重新玩
+                const restartQuiz = () => {
+                    step.value = 'start';
+                    currentQuestionId.value = 1;
+                    history.value = [];
+                    finalResultTag.value = '';
+                };
+
+                return {
+                    step,
+                    currentQuestionId,
+                    currentQuestion,
+                    currentQuestionNumber,
+                    history,
+                    progress,
+                    resultData,
+                    startQuiz,
+                    handleAnswer,
+                    prevQuestion,
+                    restartQuiz
+                };
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

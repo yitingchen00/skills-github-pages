@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <style>
+        .custom-success-btn {
+          background-color: #102f21;       /* 土金棕色背景 */
+          color: #a17434;                  /* 字體顏色 */
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 20px;
+          border: none;
+          padding: 10px 30px;
+          border-radius: 8px;
+          transition: background-color 0.3s ease;
+          margin-top: 40px;
+          text-decoration: none;
+        }
+      
+        .custom-success-btn:hover {
+          background-color: #204d35;      /* 滑過變色 */
+          color: #e6b567;
+        }
+      </style>
+      
+  <meta charset="UTF-8">
+  <title>加購服務</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/fitting_room.css">
+</head>
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img src="assets/logo.jpg" class="logo-icon" alt="Logo" style="height: 70px; margin-right: 10px;">
+            RefitMe
+          </a>
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link" href="index.html">首頁</a></li>
+              <li class="nav-item"><a class="nav-link" href="fitting_room.html">AI 更衣間</a></li>
+              <li class="nav-item"><a class="nav-link" href="recrew.html">Recrew</a></li>
+              <li class="nav-item"><a class="nav-link" href="physical_store.html">實體店鋪</a></li>
+              <li class="nav-item"><a class="nav-link" href="activity.html">活動</a></li>
+              <li class="nav-item"><a class="nav-link" href="about_us.html">關於我們</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  <div class="container py-5">
+    <h2 class="mb-4">請選擇加購服務</h2>
+    <form action="/submit-upgrade" method="POST">
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="services" value="AIconsulting" id="AIconsulting">
+        <label class="form-check-label" for="AIconsulting">AI修改建議:NTD$200</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="services" value="consulting" id="consulting">
+        <label class="form-check-label" for="consulting">真人諮詢:NTD$100</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="services" value="basic" id="basic">
+        <label class="form-check-label" for="basic">初階衣服修改:NTD$300-500</label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" name="services" value="advanced" id="advanced">
+        <label class="form-check-label" for="advanced">中階衣服修改:NTD$300-800</label>
+      </div>
+      <button type="submit" class="custom-success-btn">確認加購</button>
+    </form>
+    <div id="userInfoForm" class="mt-5 d-none">
+        <h4>請填寫以下資料（僅模擬）</h4>
+        <div class="mb-3">
+          <label for="userName" class="form-label">姓名</label>
+          <input type="text" class="form-control" id="userName" placeholder="請輸入姓名">
+        </div>
+        <div class="mb-3">
+          <label for="userEmail" class="form-label">聯絡信箱</label>
+          <input type="email" class="form-control" id="userEmail" placeholder="請輸入 email">
+        </div>
+        <div class="mb-3">
+          <label for="customNotes" class="form-label">希望修改的重點</label>
+          <textarea class="form-control" id="customNotes" rows="3" placeholder="請簡述您的修改需求"></textarea>
+        </div>
+        <p class="text-muted">＊本表單為模擬用途，您輸入的資料不會被儲存。</p>
+      </div>
+      
+  </div>
+  <script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault(); // 阻止實際送出
+      document.getElementById('userInfoForm').classList.remove('d-none');
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
