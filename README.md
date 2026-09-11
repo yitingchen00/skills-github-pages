@@ -8,7 +8,7 @@
 
 點擊下方的標題即可直接預覽網頁成果：
 
-* **[家庭朋友行程共享記事本 (BuJiu)]**
+* **家庭朋友行程共享記事本 (BuJiu)**
     * [專案說明文件](https://docs.google.com/document/d/1jjaFzJA-uyD-P2JNLKZ8p-SluLBg7sZE3IDgDrEJXv8/edit?usp=sharing)
   
 * **[二手衣物修改平台 (RefitMe)](./RefitMe/)**
