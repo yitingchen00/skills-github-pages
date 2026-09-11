@@ -26,14 +26,16 @@ body {
 /* 導覽列樣式 */
 .navbar {
   background-color: #102f21;
-  height: 70px;
+  min-height: 70px;
   display: flex;
   align-items: center;
+  padding-top/bottom: 0;
 }
 
 .logo-icon {
   height: 60px;
   vertical-align: middle;
+  margin-right: 10px;
 }
 
 /* 品牌標題樣式 */
@@ -42,6 +44,7 @@ body {
   font-size: 36px;
   font-family: 'Cormorant Garamond', serif;
   letter-spacing: 1px;
+  display:flex; align-items:center
   
 }
 
